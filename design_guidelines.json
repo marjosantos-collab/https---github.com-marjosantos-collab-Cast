@@ -1,0 +1,129 @@
+{
+  "project_name": "Cast Assessoria - Passaporte Brasileiro e Visto Americano",
+  "app_type": "marketing_site + admin_dashboard (hybrid_fullstack)",
+  "language": "pt-BR",
+  "identity_and_brand": {
+    "name": "Cast Assessoria",
+    "tagline": "Especialistas em Passaporte Brasileiro e Visto Americano",
+    "core_mission": "Proporcionar uma experiência sem fricção, segura e altamente especializada na obtenção e renovação de passaportes e vistos americanos com acompanhamento individualizado.",
+    "archetype": "LUXURY & EDITORIAL PRECISION",
+    "emotional_tone": "Autoridade, Confiança Absoluta, Sofisticação Editorial, Segurança Processual"
+  },
+  "colors": {
+    "background_dark": "#0B0E14",
+    "surface_dark": "#121721",
+    "surface_card": "#181E2A",
+    "surface_card_hover": "#1F2737",
+    "primary_accent": "#D4AF37",
+    "primary_accent_hover": "#E2B857",
+    "primary_accent_muted": "rgba(212, 175, 55, 0.15)",
+    "secondary_gold": "#C5A028",
+    "status_success": "#10B981",
+    "status_warning": "#F59E0B",
+    "status_info": "#3B82F6",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "border_subtle": "rgba(255, 255, 255, 0.08)",
+    "border_accent": "rgba(212, 175, 55, 0.3)",
+    "gradient_hero_overlay": "linear-gradient(180deg, rgba(11, 14, 20, 0.7) 0%, rgba(11, 14, 20, 0.95) 100%)",
+    "gradient_card_glow": "radial-gradient(circle at top right, rgba(212, 175, 55, 0.12), transparent 70%)"
+  },
+  "typography": {
+    "heading_font": "Cormorant Garamond, Serif",
+    "body_font": "Plus Jakarta Sans, sans-serif",
+    "mono_font": "JetBrains Mono, monospace",
+    "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.1]",
+    "h2_section": "text-3xl sm:text-4xl font-semibold tracking-tight leading-tight",
+    "h3_card": "text-xl sm:text-2xl font-medium tracking-tight",
+    "body_regular": "text-base text-slate-300 leading-relaxed",
+    "overline": "uppercase text-xs font-semibold tracking-[0.25em] text-[#D4AF37]"
+  },
+  "layout_and_spacing": {
+    "container_max_width": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_padding": "py-20 sm:py-28 lg:py-32",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 lg:gap-8",
+    "card_padding": "p-6 sm:p-8"
+  },
+  "key_features_and_architecture": [
+    {
+      "section_name": "Header & Navigation",
+      "description": "Fixed glassmorphic header with sticky backdrop blur. Includes custom minimal SVG logo mark (Cast emblem), desktop links, main CTA 'Agendar Assessoria', and Admin Login trigger.",
+      "components": ["LogoSVG", "NavLinks", "AgendarCTA", "AdminTrigger", "MobileDrawer"]
+    },
+    {
+      "section_name": "Kinetic Hero Section",
+      "description": "Awwwards-level kinetic text reveal on load using Framer Motion line-by-line staggered mask. Features spotlight photography frame, trust statistics, and dual action CTAs.",
+      "components": ["KineticTitle", "Subtitle", "SpotlightFrame", "TrustStats", "PrimaryCTAButton", "SecondaryCTAButton"]
+    },
+    {
+      "section_name": "Editorial Marquee",
+      "description": "Slow drift infinite ticker separating hero and services with low-contrast luxury typography highlighting key specializations.",
+      "components": ["EditorialMarquee"]
+    },
+    {
+      "section_name": "Services Bento Grid",
+      "description": "Asymmetric bento grid breaking uniform blocks into hero cards for Passaporte Brasileiro and Visto Americano, alongside specialized diagnostic & family services.",
+      "components": ["PassportCard", "VisaUSACard", "DiagnosticCard", "FamilyCard"]
+    },
+    {
+      "section_name": "Process Timeline (Como Funciona)",
+      "description": "Step-by-step interactive workflow with smooth scroll triggers highlighting 4 phases: Análise Inicial, Preenchimento & Taxas, Agendamento Estratégico, Simulação & Conclusão.",
+      "components": ["ProcessStepsCard"]
+    },
+    {
+      "section_name": "Interactive Booking Scheduler (Agendamento)",
+      "description": "Complete booking form embedded in modal or standalone section allowing client to select Service, Date, Time slot, personal details, and special notes. Saved to persistent local storage & mock backend.",
+      "components": ["BookingForm", "DatePicker", "TimeSlotPicker", "ServiceSelector", "BookingConfirmationModal"]
+    },
+    {
+      "section_name": "Contact & Lead Capture Form",
+      "description": "Form for general inquiries with immediate validation and Sonner toast notification.",
+      "components": ["ContactForm", "InputFields", "SubmitButton"]
+    },
+    {
+      "section_name": "FAQ Accordion",
+      "description": "Interactive Radix UI accordion addressing critical questions on deadlines, interview prep, DS-160, and Federal Police appointments.",
+      "components": ["FAQAccordion"]
+    },
+    {
+      "section_name": "Protected Admin Panel",
+      "description": "Password-protected modal/dashboard view (Password: admin123) for managing all client bookings and contact requests with status updates (Pendente, Confirmado, Concluído, Cancelado), search filters, and metrics.",
+      "components": ["AdminAuthModal", "AdminDashboardHeader", "BookingsTable", "ContactsTable", "StatusBadge", "MetricsCards"]
+    },
+    {
+      "section_name": "Footer",
+      "description": "Rich dark footer with complete visible placeholder info (CNPJ, Address, Phone, Email, Socials) and direct link to Admin area.",
+      "components": ["FooterLinks", "CompanyInfoPlaceholder", "AdminAreaButton"]
+    }
+  ],
+  "image_urls": {
+    "hero_passport_stamps": "https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwxfHxwYXNzcG9ydCUyMHRyYXZlbGVyJTIwbHV4dXJ5JTIwdHJhdmVsJTIwYWlycGxhbmUlMjB2aXNhJTIwc3RhbXBzfGVufDB8fHx8MTc5MTMxMzQ1M3ww&ixlib=rb-4.1.0&q=85",
+    "passports_boarding_pass": "https://images.unsplash.com/photo-1655722724447-2d2a3071e7f8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHw0fHxwYXNzcG9ydCUyMHRyYXZlbGVyJTIwbHV4dXJ5JTIwdHJhdmVsJTIwYWlycGxhbmUlMjB2aXNhJTIwc3RhbXBzfGVufDB8fHx8MTc5MTMxMzQ1M3ww&ixlib=rb-4.1.0&q=85",
+    "consultant_meeting": "https://images.unsplash.com/photo-1714974528703-e5ad41abc259?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBjb25zdWx0aW5nJTIwb2ZmaWNlJTIwZXhlY3V0aXZlJTIwcG9ydHJhaXQlMjBjb25zdWx0YXRpb24lMjBwcm9mZXNzaW9uYWx8ZW58MHx8fHwxNzkxMzEzNDUzfDA&ixlib=rb-4.1.0&q=85",
+    "executive_portrait": "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb25zdWx0aW5nJTIwb2ZmaWNlJTIwZXhlY3V0aXZlJTIwcG9ydHJhaXQlMjBjb25zdWx0YXRpb24lMjBwcm9mZXNzaW9uYWx8ZW58MHx8fHwxNzkxMzEzNDUzfDA&ixlib=rb-4.1.0&q=85",
+    "usa_destination_statue_liberty": "https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwyfHxzdGF0dWUlMjBvZiUyMGxpYmVydHklMjBuZXclMjB5b3JrJTIwc2t5bGluZSUyMHRyYXZlbCUyMGRlc3RpbmF0aW9ufGVufDB8fHx8MTc5MTMxMzQ2NHww&ixlib=rb-4.1.0&q=85"
+  },
+  "instructions_to_main_agent": {
+    "language_requirement": "All UI elements, headings, descriptions, field labels, toasts, and sample data MUST be in Portuguese (pt-BR).",
+    "data_testid_rule": "ALL interactive components (buttons, links, inputs, select options, modal triggers, table status selectors) MUST include unambiguous data-testid attributes (e.g. data-testid='hero-book-now-button', data-testid='admin-login-password-input').",
+    "toast_rule": "Use sonner for user feedback toasts on booking submission, contact form submission, admin authentication, and status updates.",
+    "admin_auth_rule": "Implement admin panel authentication with password modal (default password: 'admin123'). Store authentication state in React state/localStorage so admin can manage bookings and contacts seamlessly.",
+    "booking_storage_rule": "Store bookings in local memory / localStorage pre-populated with realistic initial Portuguese consultation records so the admin table is never empty on first view."
+  },
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You tend to converge toward generic, on distribution outputs. In frontend design, this creates what users call the AI slop aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition (e.g., transition: all). Always add transitions for specific interactive elements like button, input excluding transforms.",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯 etc for icons. Use lucide-react icons instead.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "All interactive and key informational elements MUST include data-testid attribute for stable test execution."
+  ]
+}
