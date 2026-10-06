@@ -13,7 +13,7 @@ export const HeroFrame = ({ rx, ry }) => (
       initial={{ clipPath: "inset(100% 0 0 0 round 999px 999px 24px 24px)" }}
       animate={{ clipPath: "inset(0% 0 0 0 round 999px 999px 24px 24px)" }}
       transition={{ duration: 1.6, delay: 0.5, ease }}
-      className="relative aspect-[3/4] overflow-hidden bg-[#121721]"
+      className="relative aspect-[3/4] overflow-hidden bg-surface"
     >
       <motion.img
         src="/images/hero.jpg"
@@ -23,7 +23,7 @@ export const HeroFrame = ({ rx, ry }) => (
         transition={{ duration: 2.2, delay: 0.5, ease }}
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_20%,rgba(11,14,20,0.85)_85%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_20%,rgb(var(--ink)/0.88)_85%)]" />
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
         <p className="overline mb-2">Documento · Destino</p>
         <p className="font-display text-2xl sm:text-3xl text-white leading-tight">
@@ -43,9 +43,9 @@ export const HeroFrame = ({ rx, ry }) => (
         <defs>
           <path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" />
         </defs>
-        <circle cx="60" cy="60" r="58" fill="#0B0E14" stroke="rgba(212,175,55,0.4)" />
-        <text fill="#D4AF37" fontSize="10.5" letterSpacing="3" fontFamily="JetBrains Mono">
-          <textPath href="#circ">AGENDE · PASSAPORTE · VISTO · CAST ·</textPath>
+        <circle cx="60" cy="60" r="58" style={{ fill: "rgb(var(--ink))", stroke: "rgb(var(--sage) / 0.45)" }} />
+        <text style={{ fill: "rgb(var(--sage))" }} fontSize="10" fontFamily="JetBrains Mono">
+          <textPath href="#circ" textLength="286" lengthAdjust="spacing">AGENDE · PASSAPORTE · VISTO · </textPath>
         </text>
       </svg>
       <Stamp className="absolute inset-0 m-auto h-7 w-7 text-white" />
@@ -56,7 +56,7 @@ export const HeroFrame = ({ rx, ry }) => (
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1.6, duration: 1, ease }}
-      className="absolute -right-2 sm:-right-8 bottom-24 rounded-2xl border border-white/10 bg-[#121721]/80 backdrop-blur-xl px-5 py-4"
+      className="absolute -right-2 sm:-right-8 bottom-24 rounded-2xl border border-white/10 bg-surface/80 backdrop-blur-xl px-5 py-4"
     >
       <p className="font-mono-x text-[11px] text-slate-400 uppercase tracking-widest">Status</p>
       <p className="text-white text-sm font-medium mt-1 flex items-center gap-2">

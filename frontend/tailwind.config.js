@@ -15,6 +15,20 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       colors: {
+        // white/slate remapped to theme vars so light/dark mode flips text & lines
+        white: 'rgb(var(--fg) / <alpha-value>)',
+        slate: {
+          200: 'rgb(var(--fg-2) / <alpha-value>)',
+          300: 'rgb(var(--fg-2) / <alpha-value>)',
+          400: 'rgb(var(--fg-3) / <alpha-value>)',
+          500: 'rgb(var(--fg-4) / <alpha-value>)',
+          600: 'rgb(var(--fg-4) / <alpha-value>)',
+        },
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        alt: 'rgb(var(--alt) / <alpha-value>)',
+        sage: 'rgb(var(--sage) / <alpha-value>)',
+        onsage: 'rgb(var(--on-sage) / <alpha-value>)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

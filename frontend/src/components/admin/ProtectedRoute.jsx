@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children }) => {
   if (user === null)
     return (
       <div className="min-h-screen grid place-items-center" data-testid="admin-auth-loading">
-        <div className="h-8 w-8 rounded-full border-2 border-[#D4AF37] border-t-transparent animate-spin" />
+        <div className="h-8 w-8 rounded-full border-2 border-sage border-t-transparent animate-spin" />
       </div>
     );
   if (!user) return <Navigate to="/admin/login" replace />;

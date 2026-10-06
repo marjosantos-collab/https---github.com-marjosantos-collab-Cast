@@ -16,7 +16,7 @@ export const SectionHead = ({ index, label, title, className = "" }) => (
   <Reveal className={className}>
     <div className="flex items-center gap-4 mb-6">
       <span className="font-mono-x text-xs text-slate-400">{index}</span>
-      <span className="h-px w-10 bg-[#D4AF37]/60" />
+      <span className="h-px w-10 bg-sage/60" />
       <span className="overline">{label}</span>
     </div>
     <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.02] text-white">

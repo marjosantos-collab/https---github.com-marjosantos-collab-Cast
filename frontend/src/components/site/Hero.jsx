@@ -36,7 +36,7 @@ export const Hero = () => {
       data-testid="hero-section"
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 right-[-10%] h-[620px] w-[620px] rounded-full bg-[#D4AF37]/10 blur-[140px]" />
+        <div className="absolute -top-40 right-[-10%] h-[620px] w-[620px] rounded-full bg-sage/10 blur-[140px]" />
         <div className="absolute inset-y-0 left-[8%] w-px bg-white/5" />
         <div className="absolute inset-y-0 right-[8%] w-px bg-white/5" />
       </div>
@@ -49,7 +49,7 @@ export const Hero = () => {
             transition={{ delay: 0.3, duration: 1 }}
             className="flex items-center gap-3 mb-8"
           >
-            <span className="h-2 w-2 rounded-full bg-[#D4AF37] animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-sage animate-pulse" />
             <span className="overline">Assessoria · Passaporte & Visto Americano</span>
           </motion.div>
 
@@ -90,14 +90,14 @@ export const Hero = () => {
               className="btn-gold group inline-flex items-center gap-3 rounded-full pl-7 pr-2 py-2 text-sm font-semibold"
             >
               Agendar minha assessoria
-              <span className="h-10 w-10 rounded-full bg-[#0B0E14] text-[#D4AF37] grid place-items-center transition-transform duration-500 group-hover:rotate-45">
+              <span className="h-10 w-10 rounded-full bg-ink text-sage grid place-items-center transition-transform duration-500 group-hover:rotate-45">
                 <ArrowUpRight className="h-4 w-4" />
               </span>
             </button>
             <button
               onClick={() => scrollToId("servicos")}
               data-testid="hero-services-button"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-4 text-sm text-white hover:border-[#D4AF37]/60 hover:text-[#D4AF37] transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-4 text-sm text-white hover:border-sage/60 hover:text-sage transition-colors"
             >
               Ver serviços <ArrowDownRight className="h-4 w-4" />
             </button>

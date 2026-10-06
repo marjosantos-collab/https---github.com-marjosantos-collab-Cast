@@ -62,14 +62,14 @@ export const Booking = () => {
             <Confirmation data={done} onReset={() => { setDone(null); setDate(null); setTime(""); }} />
           ) : (
             <form onSubmit={submit} className="grid lg:grid-cols-12 gap-6" data-testid="booking-form">
-              <div className="lg:col-span-7 rounded-[28px] border border-white/[0.08] bg-[#121721] p-6 sm:p-9 space-y-9">
+              <div className="lg:col-span-7 rounded-[28px] border border-white/[0.08] bg-surface p-6 sm:p-9 space-y-9">
                 <ServicePicker value={service} onChange={setService} />
                 <div className="grid md:grid-cols-2 gap-8">
                   <BookingDatePicker value={date} onChange={setDate} />
                   <TimeSlots date={date} slots={slots} value={time} onChange={setTime} />
                 </div>
               </div>
-              <div className="lg:col-span-5 rounded-[28px] border border-white/[0.08] bg-[#121721] p-6 sm:p-9 flex flex-col gap-5">
+              <div className="lg:col-span-5 rounded-[28px] border border-white/[0.08] bg-surface p-6 sm:p-9 flex flex-col gap-5">
                 <p className="overline">Seus dados</p>
                 <Field label="Nome completo" value={form.name} onChange={(v) => setForm({ ...form, name: v })} testId="booking-name-input" required />
                 <Field label="E-mail" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} testId="booking-email-input" required />
@@ -94,13 +94,13 @@ export const Booking = () => {
 };
 
 const Confirmation = ({ data, onReset }) => (
-  <div className="rounded-[28px] border border-[#D4AF37]/30 bg-[#121721] p-8 sm:p-14 text-left" data-testid="booking-confirmation">
-    <CheckCircle2 className="h-12 w-12 text-[#D4AF37]" />
+  <div className="rounded-[28px] border border-sage/30 bg-surface p-8 sm:p-14 text-left" data-testid="booking-confirmation">
+    <CheckCircle2 className="h-12 w-12 text-sage" />
     <h3 className="mt-6 font-display text-4xl sm:text-5xl text-white">Agendamento recebido, {data?.name?.split(" ")[0]}.</h3>
     <p className="mt-4 text-slate-300 max-w-xl">
       {SERVICE_LABELS[data?.service]} · {data?.date?.split("-").reverse().join("/")} às {data?.time}. Em breve entraremos em contato para confirmar.
     </p>
-    <button onClick={onReset} data-testid="booking-new-button" className="mt-8 rounded-full border border-white/15 px-6 py-3 text-sm text-white hover:border-[#D4AF37] transition-colors">
+    <button onClick={onReset} data-testid="booking-new-button" className="mt-8 rounded-full border border-white/15 px-6 py-3 text-sm text-white hover:border-sage transition-colors">
       Fazer novo agendamento
     </button>
   </div>

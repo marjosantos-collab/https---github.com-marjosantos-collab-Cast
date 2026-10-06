@@ -12,7 +12,7 @@ import { Footer } from "@/components/site/Footer";
 export default function Home() {
   return (
     <SmoothScroll>
-      <div className="grain relative bg-[#0B0E14] text-white" data-testid="home-page">
+      <div className="grain relative bg-ink text-white" data-testid="home-page">
         <Header />
         <main>
           <Hero />

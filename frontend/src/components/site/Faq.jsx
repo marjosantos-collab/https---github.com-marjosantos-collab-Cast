@@ -17,7 +17,7 @@ export const Faq = () => (
         <Accordion type="single" collapsible className="border-t border-white/10">
           {QA.map(([q, a], i) => (
             <AccordionItem key={q} value={`q${i}`} className="border-white/10">
-              <AccordionTrigger data-testid={`faq-trigger-${i}`} className="py-7 text-left font-display text-2xl sm:text-3xl text-white hover:no-underline hover:text-[#D4AF37] transition-colors">
+              <AccordionTrigger data-testid={`faq-trigger-${i}`} className="py-7 text-left font-display text-2xl sm:text-3xl text-white hover:no-underline hover:text-sage transition-colors">
                 {q}
               </AccordionTrigger>
               <AccordionContent className="text-slate-300 text-base leading-relaxed pb-7 max-w-2xl">{a}</AccordionContent>

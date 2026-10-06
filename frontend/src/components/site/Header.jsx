@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
 import { scrollToId } from "@/lib/lenis";
+import { ThemeToggle } from "./ThemeToggle";
 
 const LINKS = [
   ["servicos", "Serviços"],
@@ -33,7 +34,7 @@ export const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 inset-x-0 z-50 transition-colors duration-500 ${
-        scrolled ? "bg-[#0B0E14]/75 backdrop-blur-xl border-b border-white/5" : "bg-transparent"
+        scrolled ? "bg-ink/75 backdrop-blur-xl border-b border-white/5" : "bg-transparent"
       }`}
       data-testid="site-header"
     >
@@ -45,13 +46,14 @@ export const Header = () => {
               key={id}
               onClick={() => go(id)}
               data-testid={`nav-link-${id}`}
-              className="relative text-sm text-slate-300 hover:text-white transition-colors after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-[#D4AF37] after:transition-[width] after:duration-300 hover:after:w-full"
+              className="relative text-sm text-slate-300 hover:text-white transition-colors after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-sage after:transition-[width] after:duration-300 hover:after:w-full"
             >
               {label}
             </button>
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <button
             onClick={() => go("agendar")}
             data-testid="header-book-button"
@@ -75,7 +77,7 @@ export const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden overflow-hidden bg-[#0B0E14]/95 backdrop-blur-xl border-b border-white/5"
+            className="lg:hidden overflow-hidden bg-ink/95 backdrop-blur-xl border-b border-white/5"
             data-testid="mobile-menu"
           >
             <div className="px-5 py-6 flex flex-col gap-1">
@@ -86,7 +88,7 @@ export const Header = () => {
                   data-testid={`mobile-nav-link-${id}`}
                   className="text-left font-display text-3xl text-white py-2 flex items-baseline gap-4"
                 >
-                  <span className="font-mono-x text-xs text-[#D4AF37]">0{i + 1}</span>
+                  <span className="font-mono-x text-xs text-sage">0{i + 1}</span>
                   {label}
                 </button>
               ))}

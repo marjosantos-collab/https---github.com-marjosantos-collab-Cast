@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { formatApiError } from "@/lib/api";
 import { Field } from "@/components/site/BookingParts";
 import { LogoMark } from "@/components/site/Logo";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 export default function AdminLogin() {
   const { user, login } = useAuth();
@@ -34,16 +35,19 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="grain min-h-screen bg-[#0B0E14] grid place-items-center px-5" data-testid="admin-login-page">
+    <div className="grain min-h-screen bg-ink grid place-items-center px-5" data-testid="admin-login-page">
       <motion.form
         onSubmit={submit}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md rounded-[28px] border border-white/[0.08] bg-[#121721] p-8 sm:p-10 space-y-7"
+        className="w-full max-w-md rounded-[28px] border border-white/[0.08] bg-surface p-8 sm:p-10 space-y-7"
         data-testid="admin-login-form"
       >
-        <LogoMark className="h-12 w-12" />
+        <div className="flex items-start justify-between">
+          <LogoMark className="h-12 w-12" />
+          <ThemeToggle testId="admin-login-theme-toggle" />
+        </div>
         <div>
           <p className="overline">Área restrita</p>
           <h1 className="font-display text-4xl text-white mt-2">Painel Cast</h1>

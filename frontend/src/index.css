@@ -6,12 +6,17 @@
 
 @layer base {
     :root {
-        --ink: #0b0e14;
-        --surface: #121721;
-        --card-bg: #181e2a;
-        --gold: #d4af37;
-        --gold-soft: #e2b857;
-        --paper: #f8fafc;
+        --ink: 11 14 20;
+        --surface: 18 23 33;
+        --alt: 14 18 26;
+        --fg: 248 250 252;
+        --fg-2: 203 213 225;
+        --fg-3: 148 163 184;
+        --fg-4: 120 134 156;
+        --sage: 169 188 134;
+        --sage-soft: 186 203 152;
+        --on-sage: 11 14 20;
+        --grain: 0.06;
 
         --background: 222 29% 6%;
         --foreground: 210 40% 98%;
@@ -31,8 +36,39 @@
         --destructive-foreground: 210 40% 98%;
         --border: 220 15% 20%;
         --input: 220 15% 22%;
-        --ring: 46 65% 52%;
+        --ring: 83 28% 63%;
         --radius: 0.75rem;
+    }
+    .light {
+        --ink: 255 255 255;
+        --surface: 246 247 242;
+        --alt: 240 243 235;
+        --fg: 20 26 22;
+        --fg-2: 52 62 55;
+        --fg-3: 78 88 81;
+        --fg-4: 112 120 114;
+        --sage: 88 110 66;
+        --sage-soft: 74 94 54;
+        --on-sage: 255 255 255;
+        --grain: 0.035;
+
+        --background: 0 0% 100%;
+        --foreground: 140 13% 9%;
+        --card: 80 15% 96%;
+        --card-foreground: 140 13% 9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 140 13% 9%;
+        --primary: 90 25% 34%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 80 15% 93%;
+        --secondary-foreground: 140 13% 9%;
+        --muted: 80 15% 93%;
+        --muted-foreground: 135 6% 32%;
+        --accent: 80 15% 92%;
+        --accent-foreground: 140 13% 9%;
+        --border: 90 8% 85%;
+        --input: 90 8% 82%;
+        --ring: 90 25% 34%;
     }
 }
 
@@ -41,7 +77,13 @@
         @apply border-border;
     }
     html {
-        background: var(--ink);
+        background: rgb(var(--ink));
+    }
+    body,
+    section,
+    header,
+    footer {
+        transition: background-color 0.5s ease, color 0.5s ease;
     }
     body {
         @apply bg-background text-foreground;
@@ -50,8 +92,8 @@
         -moz-osx-font-smoothing: grayscale;
     }
     ::selection {
-        background: var(--gold);
-        color: var(--ink);
+        background: rgb(var(--sage));
+        color: rgb(var(--on-sage));
     }
 }
 
@@ -67,7 +109,7 @@
     text-transform: uppercase;
     letter-spacing: 0.25em;
     font-size: 0.72rem;
-    color: var(--gold);
+    color: rgb(var(--sage));
 }
 
 .grain::after {
@@ -76,17 +118,17 @@
     inset: 0;
     pointer-events: none;
     z-index: 60;
-    opacity: 0.06;
+    opacity: var(--grain);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .gold-text {
-    color: var(--gold);
+    color: rgb(var(--sage));
 }
 
 .outline-text {
     color: transparent;
-    -webkit-text-stroke: 1px rgba(212, 175, 55, 0.7);
+    -webkit-text-stroke: 1px rgb(var(--sage) / 0.8);
 }
 
 .marquee-track {
@@ -109,13 +151,13 @@
 }
 
 .btn-gold {
-    background: var(--gold);
-    color: var(--ink);
+    background: rgb(var(--sage));
+    color: rgb(var(--on-sage));
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .btn-gold:hover {
-    background: var(--gold-soft);
-    box-shadow: 0 10px 40px -10px rgba(212, 175, 55, 0.6);
+    background: rgb(var(--sage-soft));
+    box-shadow: 0 10px 40px -10px rgb(var(--sage) / 0.6);
 }
 
 .lenis.lenis-smooth {

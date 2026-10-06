@@ -37,14 +37,14 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contato" className="relative py-24 sm:py-32 bg-[#0E121A] border-t border-white/5" data-testid="contact-section">
+    <section id="contato" className="relative py-24 sm:py-32 bg-alt border-t border-white/5" data-testid="contact-section">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-14">
         <div className="lg:col-span-5">
           <SectionHead index="05" label="Contato" title={<>Vamos <em className="gold-text">conversar</em>.</>} />
           <Reveal delay={0.1} className="mt-12 space-y-6">
             {INFO.map(([Icon, label, val]) => (
               <div key={label} className="flex items-start gap-4" data-testid={`contact-info-${label.toLowerCase().replace(/[^a-z]/g, "")}`}>
-                <span className="h-11 w-11 shrink-0 rounded-full border border-white/10 grid place-items-center text-[#D4AF37]">
+                <span className="h-11 w-11 shrink-0 rounded-full border border-white/10 grid place-items-center text-sage">
                   <Icon className="h-4 w-4" />
                 </span>
                 <div>
@@ -57,7 +57,7 @@ export const Contact = () => {
         </div>
 
         <Reveal delay={0.15} className="lg:col-span-7">
-          <form onSubmit={submit} className="rounded-[28px] border border-white/[0.08] bg-[#121721] p-6 sm:p-10 grid sm:grid-cols-2 gap-6" data-testid="contact-form">
+          <form onSubmit={submit} className="rounded-[28px] border border-white/[0.08] bg-surface p-6 sm:p-10 grid sm:grid-cols-2 gap-6" data-testid="contact-form">
             <Field label="Nome" value={form.name} onChange={set("name")} testId="contact-name-input" required />
             <Field label="E-mail" type="email" value={form.email} onChange={set("email")} testId="contact-email-input" required />
             <Field label="Telefone (opcional)" value={form.phone} onChange={set("phone")} testId="contact-phone-input" />

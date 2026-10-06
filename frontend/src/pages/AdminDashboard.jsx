@@ -5,11 +5,12 @@ import { LogOut, Search, CalendarDays, Mail, Clock3, CheckCircle2 } from "lucide
 import { useAuth } from "@/context/AuthContext";
 import { api, formatApiError } from "@/lib/api";
 import { Logo } from "@/components/site/Logo";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { BookingsTable, ContactsTable } from "@/components/admin/Tables";
 
 const Metric = ({ icon: Icon, label, value, testId }) => (
-  <div className="rounded-2xl border border-white/[0.08] bg-[#121721] p-5" data-testid={testId}>
-    <Icon className="h-5 w-5 text-[#D4AF37]" />
+  <div className="rounded-2xl border border-white/[0.08] bg-surface p-5" data-testid={testId}>
+    <Icon className="h-5 w-5 text-sage" />
     <p className="mt-4 font-display text-4xl text-white">{value}</p>
     <p className="text-xs text-slate-400 uppercase tracking-widest font-mono-x mt-1">{label}</p>
   </div>
@@ -78,13 +79,14 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0E14] text-white" data-testid="admin-dashboard">
-      <header className="border-b border-white/5 bg-[#0B0E14]/80 backdrop-blur-xl sticky top-0 z-40">
+    <div className="min-h-screen bg-ink text-white" data-testid="admin-dashboard">
+      <header className="border-b border-white/5 bg-ink/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
           <Logo testId="admin-logo" />
           <div className="flex items-center gap-4">
             <span className="hidden sm:block text-sm text-slate-400" data-testid="admin-user-email">{user?.email}</span>
-            <button onClick={doLogout} data-testid="admin-logout-button" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm hover:border-[#D4AF37] transition-colors">
+            <ThemeToggle testId="admin-theme-toggle" />
+            <button onClick={doLogout} data-testid="admin-logout-button" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm hover:border-sage transition-colors">
               <LogOut className="h-4 w-4" /> Sair
             </button>
           </div>
@@ -105,14 +107,14 @@ export default function AdminDashboard() {
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
           <div className="inline-flex rounded-full border border-white/10 p-1 w-fit">
             {[["bookings", `Agendamentos (${bookings.length})`], ["contacts", `Mensagens (${contacts.length})`]].map(([k, l]) => (
-              <button key={k} onClick={() => setTab(k)} data-testid={`admin-tab-${k}`} className={`rounded-full px-5 py-2 text-sm transition-colors ${tab === k ? "bg-[#D4AF37] text-[#0B0E14] font-semibold" : "text-slate-300 hover:text-white"}`}>
+              <button key={k} onClick={() => setTab(k)} data-testid={`admin-tab-${k}`} className={`rounded-full px-5 py-2 text-sm transition-colors ${tab === k ? "bg-sage text-onsage font-semibold" : "text-slate-300 hover:text-white"}`}>
                 {l}
               </button>
             ))}
           </div>
           <label className="relative sm:w-72">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por nome, e-mail..." data-testid="admin-search-input" className="w-full rounded-full border border-white/10 bg-[#121721] pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:border-[#D4AF37]" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por nome, e-mail..." data-testid="admin-search-input" className="w-full rounded-full border border-white/10 bg-surface pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:border-sage" />
           </label>
         </div>
 

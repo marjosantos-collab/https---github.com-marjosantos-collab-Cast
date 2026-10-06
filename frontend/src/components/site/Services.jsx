@@ -13,7 +13,7 @@ const Card = ({ className = "", delay = 0, children, testId }) => (
     transition={{ duration: 1, delay, ease }}
     whileHover={{ y: -6 }}
     data-testid={testId}
-    className={`group relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#121721] ${className}`}
+    className={`group relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-surface ${className}`}
   >
     {children}
   </motion.article>
@@ -22,7 +22,7 @@ const Card = ({ className = "", delay = 0, children, testId }) => (
 const PhotoCard = ({ img, alt, tag, title, text, list, testId, className, delay }) => (
   <Card className={`min-h-[460px] ${className}`} delay={delay} testId={testId}>
     <img src={img} alt={alt} className="absolute inset-0 h-full w-full object-cover opacity-60 transition-transform duration-[1.6s] ease-out group-hover:scale-110" />
-    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-[#0B0E14]/70 to-[#0B0E14]/10" />
+    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/10" />
     <div className="relative h-full flex flex-col justify-end p-7 sm:p-10">
       <span className="overline mb-4">{tag}</span>
       <h3 className="font-display text-4xl sm:text-5xl text-white leading-none">{title}</h3>
@@ -35,7 +35,7 @@ const PhotoCard = ({ img, alt, tag, title, text, list, testId, className, delay 
       <button
         onClick={() => scrollToId("agendar")}
         data-testid={`${testId}-cta`}
-        className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[#D4AF37] w-fit"
+        className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-sage w-fit"
       >
         Agendar este serviço
         <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -46,8 +46,8 @@ const PhotoCard = ({ img, alt, tag, title, text, list, testId, className, delay 
 
 const SmallCard = ({ icon: Icon, title, text, testId, className, delay }) => (
   <Card className={`p-7 sm:p-9 flex flex-col justify-between min-h-[260px] ${className}`} delay={delay} testId={testId}>
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.14),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-    <div className="relative h-12 w-12 rounded-2xl border border-[#D4AF37]/30 grid place-items-center text-[#D4AF37]">
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgb(var(--sage)/0.16),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+    <div className="relative h-12 w-12 rounded-2xl border border-sage/30 grid place-items-center text-sage">
       <Icon className="h-5 w-5" />
     </div>
     <div className="relative mt-8">
@@ -108,7 +108,7 @@ export const Services = () => (
       </div>
 
       <div className="mt-6 flex items-center gap-3 text-sm text-slate-400">
-        <BookOpenCheck className="h-4 w-4 text-[#D4AF37]" />
+        <BookOpenCheck className="h-4 w-4 text-sage" />
         As taxas governamentais e consulares são pagas diretamente aos órgãos oficiais.
       </div>
     </div>

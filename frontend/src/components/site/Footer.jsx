@@ -13,7 +13,7 @@ export const Footer = () => (
           <p className="mt-6 text-slate-300 max-w-sm leading-relaxed">
             Assessoria especializada em Passaporte Brasileiro e Visto Americano.
           </p>
-          <button onClick={() => scrollToId("agendar")} data-testid="footer-book-button" className="mt-8 inline-flex items-center gap-2 text-[#D4AF37] font-semibold text-sm group">
+          <button onClick={() => scrollToId("agendar")} data-testid="footer-book-button" className="mt-8 inline-flex items-center gap-2 text-sage font-semibold text-sm group">
             Agendar assessoria <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
         </div>
@@ -38,7 +38,7 @@ export const Footer = () => (
 
       <div className="mt-6 pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-3 justify-between text-xs text-slate-400">
         <p>© {new Date().getFullYear()} Cast Assessoria. Todos os direitos reservados.</p>
-        <Link to="/admin/login" data-testid="footer-admin-link" className="hover:text-[#D4AF37] transition-colors">
+        <Link to="/admin/login" data-testid="footer-admin-link" className="hover:text-sage transition-colors">
           Área administrativa
         </Link>
       </div>
