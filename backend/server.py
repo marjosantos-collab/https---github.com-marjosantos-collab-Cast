@@ -14,7 +14,7 @@ import jwt
 from bson import ObjectId
 from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends
 from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel, BeforeValidator, ConfigDict, EmailStr, Field
+from pydantic import AliasChoices, BaseModel, BeforeValidator, ConfigDict, EmailStr, Field
 from starlette.middleware.cors import CORSMiddleware
 
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
@@ -34,16 +34,14 @@ PyObjectId = Annotated[str, BeforeValidator(lambda v: str(v) if isinstance(v, Ob
 
 class BaseDocument(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
-    id: Optional[PyObjectId] = Field(default=None, alias="_id")
+    id: Optional[PyObjectId] = Field(default=None, validation_alias=AliasChoices("_id", "id"))
 
     @classmethod
     def from_mongo(cls, doc: dict):
         return cls.model_validate(doc)
 
     def to_mongo(self) -> dict:
-        data = self.model_dump(by_alias=True, exclude_none=True)
-        data.pop("_id", None)
-        return data
+        return self.model_dump(exclude={"id"}, exclude_none=True)
 
 
 # ---------- Models ----------
