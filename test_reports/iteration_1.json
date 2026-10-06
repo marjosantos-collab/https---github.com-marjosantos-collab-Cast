@@ -1,0 +1,40 @@
+{
+  "summary": "First iteration. Backend pytest (17/19 effective) and frontend smoke+admin test executed. Core booking/contact creation, availability, auth login/logout/me, admin authorization checks, booking conflict/weekend/past validation all PASS. CRITICAL BUG: FastAPI response_model serializes with by_alias=True by default, so Booking/Contact models with alias='_id' return '_id' to clients instead of 'id'. Admin dashboard uses record.id (undefined), producing data-testid='booking-row-undefined' / 'contact-row-undefined', React key warnings, and making status update + delete send PATCH/DELETE to /api/admin/{resource}/undefined (would 404). Public booking confirmation card still renders (uses data.name).",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "POST /api/bookings, POST /api/contacts, GET /api/admin/bookings, GET /api/admin/contacts (all response_model=Booking/Contact)", "issue": "Responses include '_id' instead of 'id'. Root cause: BaseDocument uses Field(alias='_id') and FastAPI serializes response_model with by_alias=True by default. Frontend admin table consumes 'item.id' -> undefined, breaking status change and delete flows. Fix: either (a) remove the alias and map _id -> id in from_mongo, or (b) decorate affected routes with response_model_by_alias=False, or (c) override model_dump to always emit 'id'.", "priority": "CRITICAL"}
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "BookingsTable / ContactsTable", "issue": "Rows render with key=undefined and data-testid='booking-row-undefined'/'contact-row-undefined' due to backend returning _id instead of id. Status select & delete button fire with id=undefined -> admin cannot change status or delete records.", "selector": "[data-testid^='booking-row-'], [data-testid^='contact-row-']", "priority": "CRITICAL"}
+    ],
+    "integration_issues": [
+      {"flow": "Admin dashboard CRUD", "issue": "PATCH /api/admin/bookings/undefined and DELETE /api/admin/bookings/undefined (and same for contacts) will be dispatched because record.id is undefined on frontend. Caused by backend serialization bug above.", "affected_selectors": ["booking-status-{id}", "booking-delete-{id}", "contact-status-{id}", "contact-delete-{id}"]}
+    ],
+    "design_issues": [
+      {"screen": "Document <title>", "issues": ["Page title is still 'Emergent | Fullstack App' instead of a Cast Assessoria branded title."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Fix backend id serialization so API returns 'id' (string). Suggested: in server.py BaseDocument, remove alias='_id' from id field and in from_mongo pop _id into id as str; OR set response_model_by_alias=False on affected routes.",
+    "After fix, admin status change + delete should work for both bookings and contacts; re-run backend_test to see TestBookings.test_create_booking_success_and_conflict, TestContacts.test_create_contact and TestAdminCRUD.test_zz_cleanup_delete turn green.",
+    "Update HTML <title> and meta tags in /app/frontend/public/index.html to Cast Assessoria branding."
+  ],
+  "critical_code_review_comments": [
+    "server.py (316 lines) is fine size-wise but response_model with alias leaks internal field names; FastAPI default response_model_by_alias=True causes '_id' leakage.",
+    "Admin auth cookies set with SameSite=None + Secure which is correct for cross-site cookies on the HTTPS preview domain; verified httpOnly cookies set on login and /auth/me works via cookies.",
+    "Brute-force lockout works at count>=5 (per IP+email). Login endpoint behaviour verified for wrong credentials (401).",
+    "seed_admin on startup updates existing admin password if changed (good)."
+  ],
+  "updated_files": ["/app/backend/tests/backend_test.py", "/app/test_reports/iteration_1.json"],
+  "success_rate": {"backend": "82% (14 passed, 3 failed due to id/_id bug, 2 skipped as dependents)", "frontend": "60% (public site renders OK, admin login OK, but admin CRUD rows broken)"},
+  "test_credentials": "admin@castassessoria.com.br / CastAdmin@2026 - verified working",
+  "seed_data_creation": "Created TEST_ prefixed bookings/contacts during pytest and browser flow. All cleaned up via direct Mongo delete (bookings: 1, contacts: 2 removed). DB is clean.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Root issue is BaseDocument alias='_id'. Once fixed, re-run /app/backend/tests/backend_test.py; the 3 failures convert into pass. Frontend admin UI should then render actual IDs in data-testids. Admin password: do NOT exceed 5 wrong attempts from same IP (15min lockout).",
+  "rca of the issue": "FastAPI's include_router returns response_model-serialised objects using Pydantic model_dump(by_alias=True) by default. Booking/Contact inherit BaseDocument with `id: Optional[PyObjectId] = Field(default=None, alias='_id')`, so the JSON key becomes '_id'. The frontend (admin/Tables.jsx, AdminDashboard.jsx) accesses .id -> undefined. Reproduce: curl -X POST /api/contacts with valid body -> JSON contains '_id' not 'id'. Mitigation (one-line fix per route): add `response_model_by_alias=False` to the @api.post/get/patch decorators, OR change BaseDocument so id has no alias and from_mongo copies str(_id) into id."
+}
