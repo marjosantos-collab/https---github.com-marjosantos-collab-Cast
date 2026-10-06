@@ -18,6 +18,7 @@ Follow-up: "ajuste o logotipo conforme o arquivo enviado"
 - Landing: kinetic masked hero + 3D tilt photo frame, editorial marquee, services bento, scroll-progress process, booking (service, calendar weekdays only from tomorrow, slot availability, 409 on taken slot), FAQ, contact form, footer with placeholders
 - Admin: /admin/login, /admin dashboard with metrics, tabs, search, status updates, delete
 - Customer logo applied (header, footer, admin, favicon)
+- Sage green accent (from logo) for buttons/highlights; light/dark theme toggle (persisted, site + admin); light version with white background; hero badge fixed ("AGENDE", no stray "C")
 
 ## Placeholders
 Phone, WhatsApp, e-mail, address, CNPJ, Instagram in /app/frontend/src/lib/siteInfo.js

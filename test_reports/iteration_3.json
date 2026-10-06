@@ -1,0 +1,36 @@
+{
+  "summary": "Frontend-only testing of sage-green theme, dark/light theme toggle & persistence, hero badge AGENDE fix, and booking regression. All requested items PASS. TEST_ booking created and deleted via admin UI for cleanup.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "verifications": {
+    "hero_badge_textpath": "'AGENDE · PASSAPORTE · VISTO · ' — no stray 'C' (bug fixed)",
+    "theme_toggle_header": "data-testid='theme-toggle' present, data-theme-state toggles dark<->light",
+    "html_light_class": "'light' class applied on <html>, body bg rgb(255,255,255) in light mode",
+    "theme_persistence": "localStorage cast-theme persists across reload (verified light stayed after reload)",
+    "admin_login_toggle": "data-testid='admin-login-theme-toggle' present on /admin/login",
+    "admin_dashboard_toggle": "data-testid='admin-theme-toggle' present on /admin",
+    "shared_theme": "light mode carried into /admin/login after toggling on home",
+    "no_gold_color": "No computed #D4AF37 / rgb(212,175,55) found on hero/home page in dark mode scan",
+    "mobile_390": "Theme toggle visible on 390px viewport alongside mobile-menu-toggle",
+    "booking_flow": "Service passaporte -> day 7 Oct 2026 -> 09:00 -> submit -> booking-confirmation visible with success toast",
+    "admin_login_regression": "admin@castassessoria.com.br / CastAdmin@2026 logs in; dashboard loads; delete booking works (Registro removido)"
+  },
+  "critical_code_review_comments": [
+    "ThemeContext initial state reads localStorage during useState initializer which runs on client only (fine for CRA, but could cause FOUC on first paint — consider inlined script in index.html to set 'light' class before React mounts to avoid flash).",
+    "Several console 401 errors appear during unauthenticated navigation (admin auth check endpoint). Not a bug, but consider suppressing or using 204 for 'not authenticated' probe to reduce noise.",
+    "HeroFrame badge path is hardcoded textLength='286' with lengthAdjust='spacing'. Works but brittle if copy changes; add a comment or compute dynamically."
+  ],
+  "test_report_links": ["/app/test_reports/iteration_3.json"],
+  "action_items": [],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (not tested)", "frontend": "100%"},
+  "test_credentials": "admin@castassessoria.com.br / CastAdmin@2026 (works)",
+  "seed_data_creation": "Created and deleted 1 TEST_User booking during booking regression test.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All theme + sage color + AGENDE badge fixes verified visually and programmatically. Booking + admin delete flows regressed and working. Pytest backend suite from iteration_2 remains green."
+}
