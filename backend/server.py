@@ -12,10 +12,11 @@ from typing import Annotated, List, Literal, Optional
 import bcrypt
 import jwt
 from bson import ObjectId
-from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, BackgroundTasks
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import AliasChoices, BaseModel, BeforeValidator, ConfigDict, EmailStr, Field
 from starlette.middleware.cors import CORSMiddleware
+from email_service import notify_new_booking
 
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
@@ -28,6 +29,12 @@ logging.basicConfig(level=logging.INFO)
 JWT_ALGORITHM = "HS256"
 TIME_SLOTS = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
 SERVICES = ["passaporte", "visto-americano", "renovacao-visto", "familia"]
+SERVICE_LABELS = {
+    "passaporte": "Passaporte Brasileiro",
+    "visto-americano": "Visto Americano",
+    "renovacao-visto": "Renovação de Visto",
+    "familia": "Assessoria Familiar",
+}
 
 PyObjectId = Annotated[str, BeforeValidator(lambda v: str(v) if isinstance(v, ObjectId) else v)]
 
@@ -207,7 +214,7 @@ async def availability(date: str):
 
 
 @api.post("/bookings", response_model=Booking)
-async def create_booking(body: BookingIn):
+async def create_booking(body: BookingIn, background: BackgroundTasks):
     try:
         d = date_cls.fromisoformat(body.date)
     except ValueError:
@@ -221,6 +228,7 @@ async def create_booking(body: BookingIn):
     booking = Booking(**body.model_dump())
     res = await db.bookings.insert_one(booking.to_mongo())
     booking.id = str(res.inserted_id)
+    background.add_task(notify_new_booking, booking.model_dump(), SERVICE_LABELS[booking.service])
     return booking
 
 
