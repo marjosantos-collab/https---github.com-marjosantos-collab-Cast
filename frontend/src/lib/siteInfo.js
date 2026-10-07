@@ -4,6 +4,6 @@ export const SITE = {
   email: "agendamento@castassessoria.com.br",
   address: "Calçada dos Antares, 256 sala 24 – CEP: 06541-065 Alphaville / Santana do Parnaíba – SP",
   hours: "Seg a Sex · 09h às 18h",
-  cnpj: "[CNPJ 00.000.000/0000-00]",
-  instagram: "[@castassessoria]",
+  cnpj: "[CNPJ 49.486.528/0001-01]",
+  instagram: "[@cast_assessoria]",
 };
