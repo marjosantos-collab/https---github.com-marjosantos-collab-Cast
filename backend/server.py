@@ -16,7 +16,7 @@ from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depend
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import AliasChoices, BaseModel, BeforeValidator, ConfigDict, EmailStr, Field
 from starlette.middleware.cors import CORSMiddleware
-from email_service import notify_new_booking
+from email_service import notify_new_booking, notify_customer_booking
 
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
@@ -229,6 +229,7 @@ async def create_booking(body: BookingIn, background: BackgroundTasks):
     res = await db.bookings.insert_one(booking.to_mongo())
     booking.id = str(res.inserted_id)
     background.add_task(notify_new_booking, booking.model_dump(), SERVICE_LABELS[booking.service])
+    background.add_task(notify_customer_booking, booking.model_dump(), SERVICE_LABELS[booking.service])
     return booking
 
 

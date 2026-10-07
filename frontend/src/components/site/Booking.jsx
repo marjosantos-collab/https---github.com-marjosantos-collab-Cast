@@ -98,7 +98,7 @@ const Confirmation = ({ data, onReset }) => (
     <CheckCircle2 className="h-12 w-12 text-sage" />
     <h3 className="mt-6 font-display text-4xl sm:text-5xl text-white">Agendamento recebido, {data?.name?.split(" ")[0]}.</h3>
     <p className="mt-4 text-slate-300 max-w-xl">
-      {SERVICE_LABELS[data?.service]} · {data?.date?.split("-").reverse().join("/")} às {data?.time}. Em breve entraremos em contato para confirmar.
+      {SERVICE_LABELS[data?.service]} · {data?.date?.split("-").reverse().join("/")} às {data?.time}. Enviamos um resumo para <span className="text-white" data-testid="booking-confirmation-email">{data?.email}</span>. Em breve entraremos em contato para confirmar.
     </p>
     <button onClick={onReset} data-testid="booking-new-button" className="mt-8 rounded-full border border-white/15 px-6 py-3 text-sm text-white hover:border-sage transition-colors">
       Fazer novo agendamento

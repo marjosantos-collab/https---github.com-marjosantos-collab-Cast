@@ -106,6 +106,38 @@ def _row(label: str, value: str) -> str:
             f'<td style="padding:8px 0;color:#141a16;font-size:14px">{value}</td></tr>')
 
 
+async def notify_customer_booking(booking: dict, service_label: str) -> None:
+    brand = escape(os.environ["EMAIL_FROM_NAME"])
+    first = escape((booking["name"].split() or [""])[0][:40])
+    date_br = "/".join(reversed(booking["date"].split("-")))
+    subject = f"{os.environ['EMAIL_FROM_NAME']}: recebemos seu agendamento"
+    rows = "".join([
+        _row("Serviço", escape(service_label)),
+        _row("Data", escape(date_br)),
+        _row("Horário", escape(booking["time"])),
+    ])
+    html = (
+        '<table role="presentation" width="100%" style="background:#f4f6f1;padding:24px 0"><tr><td align="center">'
+        '<table role="presentation" width="560" style="background:#ffffff;border-radius:12px;padding:32px;font-family:Arial,sans-serif">'
+        f'<tr><td style="color:#586e42;font-size:12px;letter-spacing:3px;text-transform:uppercase">{brand}</td></tr>'
+        f'<tr><td style="padding:8px 0 12px;color:#141a16;font-size:22px;font-weight:bold">Olá, {first}! Recebemos seu agendamento.</td></tr>'
+        '<tr><td style="padding-bottom:16px;color:#3a443d;font-size:14px;line-height:1.6">'
+        'Obrigado por escolher nossa assessoria. Confira abaixo os dados solicitados. '
+        'Em breve nossa equipe entrará em contato para confirmar o atendimento.</td></tr>'
+        f'<tr><td><table role="presentation" width="100%">{rows}</table></td></tr>'
+        '<tr><td style="padding-top:16px;color:#3a443d;font-size:14px;line-height:1.6">'
+        'Precisa alterar ou cancelar? Basta responder este e-mail.</td></tr>'
+        '<tr><td style="padding-top:24px;color:#8a938c;font-size:12px">'
+        f'Enviado por {brand}. Você recebeu esta mensagem porque fez um agendamento em nosso site. '
+        'Nunca solicitamos senhas ou dados de cartão por e-mail.</td></tr></table></td></tr></table>'
+    )
+    try:
+        await send_email(to=booking["email"], subject=subject, html=html)
+        logger.info("Customer confirmation sent for booking %s", booking.get("id"))
+    except Exception as e:
+        logger.error("Customer confirmation failed: %s", e)
+
+
 async def notify_new_booking(booking: dict, service_label: str) -> None:
     to = os.environ["BOOKING_NOTIFY_EMAIL"]
     brand = escape(os.environ["EMAIL_FROM_NAME"])
