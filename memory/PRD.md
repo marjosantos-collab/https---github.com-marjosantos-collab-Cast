@@ -21,6 +21,8 @@ Follow-up: "ajuste o logotipo conforme o arquivo enviado"
 - Sage green accent (from logo) for buttons/highlights; light/dark theme toggle (persisted, site + admin); light version with white background; hero badge fixed ("AGENDE", no stray "C")
 
 - Booking notification email (Emergent managed Resend) to agendamento@castassessoria.com.br on every new booking (BOOKING_NOTIFY_EMAIL in backend .env); booking still saved even if email fails
+- Customer confirmation email to the booking e-mail (first name, service, date, time; Reply-To agendamento@) — working (202)
+- OPEN ISSUE: email provider now blocks agendamento@castassessoria.com.br as "undeliverable recipient" (422); worked on 2026-10-06 first test. Likely mailbox missing/bounced. User must verify mailbox; then contact support to lift block
 
 ## Placeholders
 Phone, WhatsApp, e-mail, address, CNPJ, Instagram in /app/frontend/src/lib/siteInfo.js

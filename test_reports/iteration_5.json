@@ -1,0 +1,45 @@
+{
+  "summary": "Verified new customer confirmation email feature. Customer confirmation to booking email works (202 + 'Customer confirmation sent for booking <id>' log). Template is correct: escapes first name (<=40 chars), service, DD/MM/YYYY date, time; excludes notes; subject '... recebemos seu agendamento'; Reply-To from EMAIL_REPLY_TO; failures caught & logged. Frontend confirmation shows 'Enviamos um resumo para' + data-testid='booking-confirmation-email'. Rejected bookings (weekend) send no emails. However, INTERNAL notification to agendamento@castassessoria.com.br is now being REJECTED by the Emergent email proxy (Resend) with HTTP 422 'Undeliverable recipient' — a deliverability/account issue, not code regression. Code still handles it gracefully (booking succeeds, error logged). Created 2 TEST_ bookings via API test + 1 via UI (3 total since 2 pytest runs happened); all 3 cleaned up via admin DELETE.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "POST /api/bookings (background notify_new_booking)", "issue": "Resend proxy returns 422 'Undeliverable recipient — Recipient looks undeliverable and was blocked before sending to protect deliverability. For testing, send to delivered@resend.dev' when target is agendamento@castassessoria.com.br. This blocks the internal office notification. Previous iteration_4 reported 202 for same recipient — likely the Resend account/domain verification lapsed or sandbox mode is active. Reproduced manually with direct curl to integrations.emergentagent.com/api/v1/email/send using key from .env.", "priority": "HIGH"}
+    ],
+    "minor": []
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "verifications": {
+    "customer_confirmation_log": "INFO:email_service:Customer confirmation sent for booking 6ac62aedadc2d2e2d0984e4f",
+    "customer_confirmation_202": "POST https://integrations.emergentagent.com/api/v1/email/send \"HTTP/1.1 202 Accepted\" (confirmed for delivered@resend.dev)",
+    "internal_notification_422": "POST https://integrations.emergentagent.com/api/v1/email/send \"HTTP/1.1 422 unknown\" + ERROR:email_service:Booking notification failed",
+    "template_fixed_server_side": "notify_customer_booking in /app/backend/email_service.py — only name/service/date/time escaped & interpolated; notes NOT included (unit test confirms SENSITIVE NOTES NOT in html)",
+    "reply_to_env": "send_email adds 'contact_email'=EMAIL_REPLY_TO when env present",
+    "first_name_escape_truncate": "first = escape((booking['name'].split() or [''])[0][:40]) — only first word, max 40 chars, html-escaped",
+    "failure_safety": "notify_customer_booking wraps send_email in try/except; forced RuntimeError test confirms no exception propagates",
+    "rejected_booking_no_email": "Weekend 400 response produced zero 'Booking notification sent' or 'Customer confirmation sent' lines in subsequent log window",
+    "frontend_confirmation_text": "'Agendamento recebido, TEST_FrontendCust. Passaporte Brasileiro · 22/10/2026 às 09:00. Enviamos um resumo para delivered@resend.dev. Em breve entraremos em contato para confirmar.'",
+    "frontend_data_testid": "booking-confirmation-email -> 'delivered@resend.dev'"
+  },
+  "critical_code_review_comments": [
+    "notify_customer_booking subject uses raw EMAIL_FROM_NAME (not escape()). Since EMAIL_FROM_NAME is a trusted env var ('Cast Assessoria'), this is OK, but subject-level escaping would be more defensive.",
+    "notify_new_booking should be adjusted to handle Resend sandbox mode (current 422) — consider: (a) verifying domain in Resend dashboard, (b) using a verified from-address, or (c) adding an admin-level alert when notify_new_booking fails > N times. The current try/except silently drops the office notification — client gets email, office doesn't.",
+    "In email_service.send_email, resp.raise_for_status() loses the Resend error body; consider logging resp.text on 4xx so operators see 'Undeliverable recipient' immediately in supervisor logs instead of a bare httpx error.",
+    "Minor: notify_customer_booking date_br assumes ISO; same as notify_new_booking (safe because upstream validates via date_cls.fromisoformat)."
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_customer_confirmation_email.py",
+    "/app/backend/tests/test_booking_email.py",
+    "/app/test_reports/pytest/customer_confirmation.xml"
+  ],
+  "action_items": [
+    "Resolve Resend/Emergent email proxy deliverability: investigate why agendamento@castassessoria.com.br is rejected with 'Undeliverable recipient' 422. Likely requires domain verification or lifting sandbox restriction on the EMERGENT_EMAIL_KEY. Without this, the office never receives notifications even though code logs an error.",
+    "Enhance send_email to log Resend response body on 4xx (currently only generic httpx error shows up)."
+  ],
+  "updated_files": ["/app/backend/tests/test_customer_confirmation_email.py"],
+  "success_rate": {"backend": "75% (3/4 pytest; 1 fails only due to external Resend 422 on internal recipient)", "frontend": "100%"},
+  "test_credentials": "admin@castassessoria.com.br / CastAdmin@2026 (verified working)",
+  "seed_data_creation": "Created 3 TEST_ bookings during testing (2 via API test runs, 1 via UI). All 3 deleted via admin DELETE /api/admin/bookings/{id}. Customer confirmation emails went to delivered@resend.dev (Resend test address) — no real inbox impact.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Customer confirmation feature is implemented & verified end-to-end (code, logs, frontend). The only outstanding issue is EXTERNAL: the Emergent email proxy currently rejects the real client address agendamento@castassessoria.com.br with 422 Undeliverable. Reproduce by running test_customer_confirmation_email.py — test_create_booking_sends_both_emails will fail on the internal notification assertion. If retesting after a Resend/env fix, re-run only that single test (sends 1 email to delivered@resend.dev — no real-user email impact).",
+  "rca_of_the_issue": "Direct curl against https://integrations.emergentagent.com/api/v1/email/send with the current EMERGENT_EMAIL_KEY and to=['agendamento@castassessoria.com.br'] returns: {\"error\":\"Undeliverable recipient\",\"message\":\"Recipient looks undeliverable and was blocked before sending to protect deliverability. For testing, send to delivered@resend.dev\",\"code\":\"undeliverable_recipient\"}. This indicates the Resend account behind the Emergent proxy is in sandbox / unverified-domain mode and only accepts delivered@resend.dev as recipient. Customer email works because the test used delivered@resend.dev. Mitigation: either (1) verify castassessoria.com.br domain / promote the Resend account out of sandbox, or (2) temporarily point BOOKING_NOTIFY_EMAIL to a verified recipient until domain is validated."
+}

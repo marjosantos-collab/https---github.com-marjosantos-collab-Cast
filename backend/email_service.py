@@ -97,7 +97,8 @@ async def send_email(*, to: str, subject: str, html: str) -> str | None:
             headers={"X-Email-Key": os.environ["EMERGENT_EMAIL_KEY"]},
             json=payload,
         )
-    resp.raise_for_status()
+    if resp.status_code >= 400:
+        raise RuntimeError(f"{resp.status_code} {resp.text[:300]}")
     return resp.json().get("id")
 
 
