@@ -1,0 +1,33 @@
+{
+  "summary": "Verified booking email notification to agendamento@castassessoria.com.br. Created targeted test file (test_booking_email.py) with 3 tests covering: (1) rejected booking does not send email, (2) accepted booking triggers background email + 202 from Resend proxy + success log line, (3) HTML in name/notes is escaped and newline converted to <br>. All 3 PASS. Backend logs confirm: 'INFO:email_service:Booking notification sent to agendamento@castassessoria.com.br' and 'POST https://integrations.emergentagent.com/api/v1/email/send HTTP/1.1 202 Accepted'. Frontend regression: booking submit through UI shows booking-confirmation with correct booking details. Only 1 TEST_ booking kept (2 created total, both cleaned up via admin DELETE).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "verifications": {
+    "booking_notify_email_env": "BOOKING_NOTIFY_EMAIL=agendamento@castassessoria.com.br present in /app/backend/.env",
+    "background_task": "server.py create_booking adds notify_new_booking via BackgroundTasks (non-blocking); booking returned with id even if email fails",
+    "email_failure_safety": "notify_new_booking wraps send_email in try/except -> errors logged, booking not affected (code review confirmed)",
+    "html_escaping": "notify_new_booking uses html.escape() on name, email, phone, service_label, date_br, time, notes; <script>/<b>/& all escaped; \\n -> <br>",
+    "backend_log_success_line": "INFO:email_service:Booking notification sent to agendamento@castassessoria.com.br",
+    "backend_log_http_202": "INFO:httpx:HTTP Request: POST https://integrations.emergentagent.com/api/v1/email/send \"HTTP/1.1 202 Accepted\"",
+    "weekend_past_duplicate": "400/400/409 validation unchanged (test_create_booking_weekend_rejected, past rejection code path + 409 duplicate verified in prior iterations)",
+    "frontend_confirmation": "booking-confirmation renders with 'Agendamento recebido, TEST_FrontendUser2.' + 'Passaporte Brasileiro · 20/10/2026 às 10:00'"
+  },
+  "critical_code_review_comments": [
+    "notify_new_booking relies on os.environ['BOOKING_NOTIFY_EMAIL'] without fallback — ok because .env is loaded at startup; if missing the exception is caught in try/except so booking still succeeds (good).",
+    "date_br = '/'.join(reversed(booking['date'].split('-'))) assumes ISO date format; input is validated upstream via date_cls.fromisoformat so safe.",
+    "_assert_safe_email runs on every send; if subject contains user-provided dynamic text in the future, note that only service_label is used today (static), so no risk currently.",
+    "Consider adding retry/backoff for transient Resend errors (currently single-shot) — low priority since failure is logged and booking is not blocked."
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_booking_email.py",
+    "/app/test_reports/pytest/email_test.xml"
+  ],
+  "action_items": [],
+  "updated_files": ["/app/backend/tests/test_booking_email.py"],
+  "success_rate": {"backend": "100% (3/3 new tests)", "frontend": "100% (booking flow)"},
+  "test_credentials": "admin@castassessoria.com.br / CastAdmin@2026 (works)",
+  "seed_data_creation": "Created 2 TEST_ bookings (one via API test, one via UI). Both deleted via admin DELETE /api/admin/bookings/{id}. Each triggered 1 real email to agendamento@castassessoria.com.br.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Email notification feature works end-to-end. To re-test without spamming the client inbox, only run test_booking_email.py (sends 1 email per run) or run the HTML-escape unit test which stubs send_email. Full backend_test.py also creates a booking that sends an email — prefer the targeted file."
+}

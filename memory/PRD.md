@@ -20,6 +20,8 @@ Follow-up: "ajuste o logotipo conforme o arquivo enviado"
 - Customer logo applied (header, footer, admin, favicon)
 - Sage green accent (from logo) for buttons/highlights; light/dark theme toggle (persisted, site + admin); light version with white background; hero badge fixed ("AGENDE", no stray "C")
 
+- Booking notification email (Emergent managed Resend) to agendamento@castassessoria.com.br on every new booking (BOOKING_NOTIFY_EMAIL in backend .env); booking still saved even if email fails
+
 ## Placeholders
 Phone, WhatsApp, e-mail, address, CNPJ, Instagram in /app/frontend/src/lib/siteInfo.js
 
