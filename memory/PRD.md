@@ -25,7 +25,7 @@ Follow-up: "ajuste o logotipo conforme o arquivo enviado"
 - OPEN ISSUE: email provider now blocks agendamento@castassessoria.com.br as "undeliverable recipient" (422); worked on 2026-10-06 first test. Likely mailbox missing/bounced. User must verify mailbox; then contact support to lift block
 
 ## Placeholders
-Phone, WhatsApp, e-mail, address, CNPJ, Instagram in /app/frontend/src/lib/siteInfo.js
+Phone/WhatsApp (11) 97835-4444, e-mail agendamento@castassessoria.com.br and address set (2026-10-07). Still placeholders: CNPJ, Instagram in /app/frontend/src/lib/siteInfo.js
 
 ## Backlog
 - P1: Email/WhatsApp notifications for new bookings
